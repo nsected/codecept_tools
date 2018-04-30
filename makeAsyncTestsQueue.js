@@ -15,7 +15,7 @@ module.exports = function makeAsyncTestsQueue(configPath, overrideArguments, con
     }
     else {
         if (!config.tests) throw new Error('must provide test scripts');
-        testsList = glob.sync(config.tests, {});
+        testsList = glob.sync(path.join(process.cwd(), path.dirname(configPath), config.tests), {});
     }
 
     for (let i = 0; i < testsList.length; i++) {

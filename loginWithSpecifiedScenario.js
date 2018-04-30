@@ -15,7 +15,7 @@ Scenario('login', async (I) => {
                 fs.mkdirSync(tmp);
 
                 console.log('Login with scenario: ' + config.loginScript);
-                let loginPartition = path.join(process.cwd(), config.loginScript);
+                let loginPartition = path.join(process.cwd(), path.dirname( config.mocha.config), config.loginScript);
                 let login = await require(loginPartition);
                 await login(I);
                 let cookies = await I.grabCookie();
