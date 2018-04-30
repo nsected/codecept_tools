@@ -7,6 +7,9 @@
   },
   "author": "Mustaev Denis <d.mustaev@xsolla.com>",
   "license": "ISC",
+  "bin": {
+    "codecept_tools": "./run.js"
+  },
   "dependencies": {
     "glob": "^7.1.2",
     "mocha-allure-reporter": "^1.3.2",
