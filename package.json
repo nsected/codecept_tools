@@ -2,7 +2,7 @@
   "name": "codecept_tools",
   "version": "0.1.0",
   "description": "Tools for codecept.js",
-  "main": "",
+  "main": "run.js",
   "scripts": {
   },
   "author": "Mustaev Denis <d.mustaev@xsolla.com>",
