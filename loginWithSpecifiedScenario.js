@@ -1,9 +1,10 @@
 //логин для run.js со сценарием, определенным в конфиге
 const fs = require('fs');
 const path = require("path");
-const config = require('codeceptjs').config.get();
-const tmp = './tmp';
 const rimraf = require('rimraf');
+const config = require('codeceptjs').config.get();
+const tmp = path.join(process.cwd(), '/tmp');
+const cookiePath = path.join(tmp, '/cookies.json');
 
 Feature('login');
 
@@ -18,7 +19,7 @@ Scenario('login', async (I) => {
                 let login = await require(loginPartition);
                 await login(I);
                 let cookies = await I.grabCookie();
-                await fs.writeFileSync(tmp + "/cookies.json", JSON.stringify(cookies), function(err) {
+                await fs.writeFileSync(cookiePath, JSON.stringify(cookies), function(err) {
                     if(err) {
                         console.error(err);
                     }
