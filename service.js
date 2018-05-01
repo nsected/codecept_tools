@@ -4,6 +4,7 @@ module.exports = function() {
     const browser = this.helpers['WebDriverIO'].browser;
 
     return actor({
+        helpers: this,
         config: config,
         vars: vars,
         browser: browser,
