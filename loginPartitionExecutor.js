@@ -4,14 +4,14 @@ const config = require('codeceptjs').config.get();
 const tmp = path.join(process.cwd(), '/tmp');
 const cookiePath = path.join(tmp, '/cookies.json');
 
-module.exports = function (I, service) {
+module.exports = function (I) {
     return actor({
         login: async function (I) {
             if (config.isAsync === false && !!config.loginScript) {
                 console.log('Login with login script ' + config.loginScript);
                 let loginPartition = path.join(process.cwd(), config.loginScript);
                 let login = await require(loginPartition);
-                await login(I, service);
+                await login(I);
             }
 
             if (config.isAsync === true && !!config.loginScript) {
