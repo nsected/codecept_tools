@@ -8,7 +8,7 @@ const cookiePath = path.join(tmp, '/cookies.json');
 
 Feature('login');
 
-Scenario('login', async (I) => {
+Scenario('login', async (I, service) => {
         try {
             if (!!config.loginScript) {
                 rimraf.sync(tmp, {}, function () {});
@@ -17,7 +17,7 @@ Scenario('login', async (I) => {
                 console.log('Login with scenario: ' + config.loginScript);
                 let loginPartition = path.join(process.cwd(), path.dirname( config.mocha.config), config.loginScript);
                 let login = await require(loginPartition);
-                await login(I);
+                await login(I, service);
                 let cookies = await I.grabCookie();
                 await fs.writeFileSync(cookiePath, JSON.stringify(cookies), function(err) {
                     if(err) {
