@@ -1,6 +1,8 @@
 
 
 module.exports = function buildCodeceptjsArguments(overrideArguments, configPath, specificTestFile, config) {
+    if (!config.codeceptParams) config.codeceptParams = [''];
+
     let isAsync = config.isAsync;
     let codeceptParams = [
         'codeceptjs',

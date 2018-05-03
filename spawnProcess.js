@@ -4,7 +4,7 @@ const {spawn} = require('child_process');
 module.exports = function spawnProcess(test, testsQueue, processQueue, config, isVerbose) {
     if (!test) {
         return  new Promise((resolve, reject) => {
-            if (isVerbose) console.log('!!!спавнится отсутствющий тест')
+            if (isVerbose) console.log('!!!спавнится отсутствющий тест');
             resolve(true)
         })
     }
