@@ -67,7 +67,7 @@ async function run(cmd) {
 
     if (isAsync) {
         loginTestQueue = makeAsyncTestsQueue(configPath, overrideArguments, config, 'login');
-        testsQueue = makeAsyncTestsQueue(configPath, overrideArguments, config, 'regularTest')
+        testsQueue = makeAsyncTestsQueue(configPath, overrideArguments, config, 'regularTest');
         console.log('(i) Загружено ', testsQueue.length, ' тестов')
     }
     else {
@@ -76,7 +76,8 @@ async function run(cmd) {
     }
 
     await handleTestsQueue(loginTestQueue, processQueue, config, isVerbose);
-    await handleTestsQueue(testsQueue, processQueue, config, isVerbose)
+    await handleTestsQueue(testsQueue, processQueue, config, isVerbose);
+    await console.log(`(i) ВСЕ ТЕСТЫ ВЫПОЛНЕНЫ!`);
 
 
 }
