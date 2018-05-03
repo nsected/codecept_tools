@@ -77,7 +77,7 @@ async function run(cmd) {
 
     await handleTestsQueue(loginTestQueue, processQueue, config, isVerbose);
     await handleTestsQueue(testsQueue, processQueue, config, isVerbose);
-    await console.log(`(i) ВСЕ ТЕСТЫ ВЫПОЛНЕНЫ!`);
+    await console.log(`(i) ВСЕ ТЕСТЫ ЗАПУЩЕНЫ`);
 
 
 }
