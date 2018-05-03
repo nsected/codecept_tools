@@ -68,6 +68,7 @@ async function run(cmd) {
     if (isAsync) {
         loginTestQueue = makeAsyncTestsQueue(configPath, overrideArguments, config, 'login');
         testsQueue = makeAsyncTestsQueue(configPath, overrideArguments, config, 'regularTest')
+        console.log('(i) Загружено ', testsQueue.length, ' тестов')
     }
     else {
         loginTestQueue = false;

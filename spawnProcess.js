@@ -2,6 +2,12 @@ const buildCodeceptjsArguments = require("./buildCodeceptjsArguments");
 const {spawn} = require('child_process');
 
 module.exports = function spawnProcess(test, testsQueue, processQueue, config, isVerbose) {
+    if (!test) {
+        return  new Promise((resolve, reject) => {
+            if (isVerbose) console.log('!!!спавнится отсутствющий тест')
+            resolve(true)
+        })
+    }
     let commandLineArguments = buildCodeceptjsArguments(
         test.overrideArguments,
         test.configPath,
@@ -18,8 +24,9 @@ module.exports = function spawnProcess(test, testsQueue, processQueue, config, i
                 env: process.env
             }
         );
-
+        console.log('(i) ТЕСТ', test.name, 'ЗАПУСТИЛСЯ');
         if (isVerbose) {
+            console.log('-ИН ТЕСТ. ЭТОТ ТЕСТ ЗАСПАВНЕН');
             console.log("multi='spec=- mocha-allure-reporter=-'" + processQueue[test.name].spawnargs.join(' '));
         }
 
@@ -32,12 +39,15 @@ module.exports = function spawnProcess(test, testsQueue, processQueue, config, i
         });
 
         processQueue[test.name].on('close', (code) => {
-            console.log(`${test.name} exited with code ${code}`);
+
+            if (isVerbose) console.log(`${test.name} exited with code ${code}`);
             delete processQueue[test.name];
             if (code === 0) {
+                console.log('(i) ТЕСТ', test.name, 'ЗАВЕРШИЛСЯ УСПЕШНО');
                 resolve(true)
             }
             else {
+                console.log('(i) ТЕСТ', test.name, 'ЗАВЕРШИЛСЯ С ОШИБКОЙ');
                 reject({
                     error: new Error(`${test.name} exited with code ${code}`),
                     test: test
@@ -45,4 +55,4 @@ module.exports = function spawnProcess(test, testsQueue, processQueue, config, i
             }
         });
     })
-}
+};

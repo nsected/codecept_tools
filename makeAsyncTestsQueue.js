@@ -29,4 +29,4 @@ module.exports = function makeAsyncTestsQueue(configPath, overrideArguments, con
         };
     }
     return asyncTestsQueue;
-}
+};

@@ -30,4 +30,4 @@ module.exports = function buildCodeceptjsArguments(overrideArguments, configPath
     }
 
     return codeceptParams.concat(argumentsArray);
-}
+};
