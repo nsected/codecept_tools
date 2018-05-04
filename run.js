@@ -1,9 +1,6 @@
 #!/usr/bin/env node
 
-//todo: Выложить хелперы как пакет npm.
-
-//todo: добавить override опцию для кодцепта
-//todo: убрать вывод шагов
+//todo: оптимизировать загрузку куков
 //todo: завернуть проект в модуль NPM
 //todo: навернуть классов
 //todo: переименовать verbose в debug
@@ -77,7 +74,8 @@ async function run(cmd) {
         testsQueue = makeSyncTestsQueue(configPath, overrideArguments, config);
     }
 
-    await handleTestsQueue(loginTestQueue, processQueue, config, isVerbose);
+    await handleTestsQueue(loginTestQueue, processQueue, config, isVerbose)
+    await console.log(`(i) ЛОГИН ЗАВЕРШИЛСЯ УСПЕШНО, ЗАПУСКАЕМ ТЕСТЫ`);
     await handleTestsQueue(testsQueue, processQueue, config, isVerbose);
     await console.log(`(i) ВСЕ ТЕСТЫ ЗАПУЩЕНЫ`);
 

@@ -57,7 +57,7 @@ module.exports = function (testsQueue, processQueue, config, isVerbose) {
                         if (isVerbose) console.log('СПАВНИМ ЕЩЕ ОД-');
                         if (threadsCount === 0 && testsQueueCount === 0) {
                             if (isVerbose) console.log(`All tests spawned, still in progress ${inProgressTestsCount} tests`);
-                            resolve(true)
+                            // resolve(true)
                         }
                         else {
                             if (isVerbose) console.log('Spawn more tests');
