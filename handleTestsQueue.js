@@ -21,7 +21,7 @@ module.exports = function (testsQueue, processQueue, config, isVerbose) {
             }
 
             if (threadsCount === 0 && testsQueueCount === 0) {
-                console.log(`(i) ОСТАЛОСЬ ТЕСТОВ В РАБОТЕ : ${inProgressTestsCount}`);
+                console.log(`(i) ОСТАЛОСЬ ТЕСТОВ В РАБОТЕ ${inProgressTestsCount} : ${Object.keys(processQueue)}`);
                 if (isVerbose) console.log(`All tests spawned, still in progress ${inProgressTestsCount} tests`);
             }
 
