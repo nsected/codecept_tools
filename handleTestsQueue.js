@@ -3,7 +3,7 @@ const spawnProcess = require("./spawnProcess");
 module.exports = function (testsQueue, processQueue, config, isVerbose) {
     return new Promise((resolve, reject) => {
         handleTestsQueue(testsQueue, processQueue, config, isVerbose);
-
+        let errorsCount = 0
         function handleTestsQueue(testsQueue, processQueue, config, isVerbose) {
             if (testsQueue === false) resolve(true);
 
@@ -27,7 +27,7 @@ module.exports = function (testsQueue, processQueue, config, isVerbose) {
 
             if (inProgressTestsCount === 0 && testsQueueCount === 0) {
                 if (isVerbose) console.log(`All done`);
-                resolve(true)
+                resolve(errorsCount)
             }
 
             if (isVerbose) {
@@ -66,6 +66,7 @@ module.exports = function (testsQueue, processQueue, config, isVerbose) {
 
                     })
                     .catch(result => {
+                        errorsCount+= 1;
                         if (isVerbose) console.log('С ОШИБКОЙ, СПАВНИМ ЕЩЕ ОД-');
                         let myTestType;
                         if (!!result.test) myTestType = result.test.testType;

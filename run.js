@@ -8,9 +8,9 @@
 
 
 //todo: !!!функциональные доработки
-//todo: сделать повтор отпавших тестов
-//todo: после завершения тестов выдавать в консоль summary
 //todo: обсервить ошибки в консоли браузера и записывать их в отчет
+//todo: починить процедуру загрузки куков при использовании опции оверрайда
+//todo: сделать таймаут для тестов
 
 
 //todo: !!!рефактор
@@ -76,6 +76,7 @@ async function run(cmd) {
     let processQueue = {};
     let loginTestQueue;
     let testsQueue;
+    let testsCount;
     process.env.multi = 'spec=- mocha-allure-reporter=-'; //todo: разхардкодить опции моки
 
 
@@ -86,17 +87,23 @@ async function run(cmd) {
     if (isAsync) {
         loginTestQueue = makeAsyncTestsQueue(configPath, overrideArguments, config, 'login');
         testsQueue = makeAsyncTestsQueue(configPath, overrideArguments, config, 'regularTest');
-        console.log('(i) Загружено ', testsQueue.length, ' тестов')
+        testsCount = testsQueue.length;
+        console.log(`(i) Загружено тестов: ${testsCount}`)
+
     }
     else {
         loginTestQueue = false;
         testsQueue = makeSyncTestsQueue(configPath, overrideArguments, config);
+        testsCount = testsQueue.length;
+        console.log(`(i) Загружено тестов: ${testsCount}`)
     }
 
     await handleTestsQueue(loginTestQueue, processQueue, config, isVerbose);
-    await console.log(`(i) ЛОГИН ЗАВЕРШИЛСЯ УСПЕШНО, ЗАПУСКАЕМ ТЕСТЫ`);
-    await handleTestsQueue(testsQueue, processQueue, config, isVerbose);
-    await console.log(`(i) ВСЕ ТЕСТЫ ЗАПУЩЕНЫ`);
-
-
+    console.log(`(i) ЛОГИН ЗАВЕРШИЛСЯ УСПЕШНО, ЗАПУСКАЕМ ТЕСТЫ`);
+    let errorsCount = await handleTestsQueue(testsQueue, processQueue, config, isVerbose);
+    console.log(`(i) ВСЕ ТЕСТЫ ВЫПОЛНЕНЫ`);
+    console.log(`(i) Выполнено тестов ${testsCount}`);
+    console.log(`(i) успешных тестов: ${testsCount - errorsCount}`);
+    console.log(`(i) ТЕСТОВ С ОШИБКОЙ ${errorsCount}`);
+    process.exit(errorsCount);
 }
