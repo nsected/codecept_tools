@@ -6,7 +6,7 @@ const config = require('codeceptjs').config.get();
 const tmp = path.join(process.cwd(), '/tmp');
 const cookiePath = path.join(tmp, '/cookies.json');
 
-Feature('login');
+Feature('login', {timeout: config.timeout, retries: config.retries});
 
 Scenario('login', async (I, vars) => {
         try {
