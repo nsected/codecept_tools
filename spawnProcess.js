@@ -1,52 +1,58 @@
-const Container = require('codeceptjs').container;
-const Codecept = require('codeceptjs').codecept;
 const buildCodeceptjsArguments = require("./buildCodeceptjsArguments");
-const path = require('path');
-const actor = require('codeceptjs').actor;
+const {spawn} = require('child_process');
 
 module.exports = function spawnProcess(test, testsQueue, processQueue, config, isVerbose) {
-    // console.log('спавнится отсутствющий тест');
-    return new Promise(async (resolve, reject) => {
-
-        if (!test) {
+    if (!test) {
+        return  new Promise((resolve, reject) => {
             if (isVerbose) console.log('!!!спавнится отсутствющий тест');
             resolve(true)
-        } else {
-            try {
-                global.actor=actor;
-                global.codecept_dir = path.join(process.cwd(), 'tests/publisher3');
-                console.log('11111111');
-                let opts = {
-                    reporter: 'mocha-multi',
-                    steps: true,
-                    debug: true,
-                    verbose: true
-                };
+        })
+    }
+    let commandLineArguments = buildCodeceptjsArguments(
+        test.overrideArguments,
+        test.configPath,
+        test.specificTestFile,
+        config
+    );
 
-                config.isAsync = true;
-                let codecept = new Codecept(config, opts);
-                console.log(config);
-                console.log(opts);
-                Container.create(config, opts);
-                codecept.bootstrap();
-                codecept.loadTests('/Users/d.mustaev/PhpstormProjects/publisher3_tests/tests/publisher3/scenarios/0payouts.js');
-                console.log('2222222');
+    return new Promise((resolve, reject) => {
+        processQueue[test.name] = spawn(
+            `npx`,
+            commandLineArguments,
+            {
+                cwd: process.cwd(),
+                env: process.env
+            }
+        );
+        console.log('(i) ТЕСТ', test.name, 'ЗАПУСТИЛСЯ');
+        if (isVerbose) {
+            console.log('-ИН ТЕСТ. ЭТОТ ТЕСТ ЗАСПАВНЕН');
+            console.log("multi='spec=- mocha-allure-reporter=-'" + processQueue[test.name].spawnargs.join(' '));
+        }
 
-                console.log('33333333333');
-                processQueue[test.name] = await codecept.run();
-                await console.log(processQueue[test.name]);
-                await console.log('(i) ТЕСТ', test.name, 'ЗАВЕРШИЛСЯ УСПЕШНО');
-                await resolve(true)
+        processQueue[test.name].stdout.on('data', (data) => {
+            console.log(`[${test.name}]: ${data}`);
+        });
 
-            } catch(err) {
-                console.error(err);
+        processQueue[test.name].stderr.on('data', (data) => {
+            console.error(`[${test.name}]: ${data}`);
+        });
+
+        processQueue[test.name].on('close', (code) => {
+
+            if (isVerbose) console.log(`${test.name} exited with code ${code}`);
+            delete processQueue[test.name];
+            if (code === 0) {
+                console.log('(i) ТЕСТ', test.name, 'ЗАВЕРШИЛСЯ УСПЕШНО');
+                resolve(true)
+            }
+            else {
                 console.log('(i) ТЕСТ', test.name, 'ЗАВЕРШИЛСЯ С ОШИБКОЙ');
                 reject({
-                    error: new Error(`${test.name} exited with error ${err.name}`),
+                    error: new Error(`${test.name} exited with code ${code}`),
                     test: test
                 })
             }
-        }
-
+        });
     })
 };
