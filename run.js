@@ -99,7 +99,8 @@ async function run(cmd) {
 
     await handleTestsQueue(loginTestQueue, processQueue, config, isVerbose);
     console.log(`(i) ЛОГИН ЗАВЕРШИЛСЯ УСПЕШНО, ЗАПУСКАЕМ ТЕСТЫ`);
-    let errorsCount = await handleTestsQueue(testsQueue, processQueue, config, isVerbose);
+    let errorsCount = 0;
+    errorsCount = await handleTestsQueue(testsQueue, processQueue, config, isVerbose);
     console.log(`(i) ВСЕ ТЕСТЫ ВЫПОЛНЕНЫ`);
     console.log(`(i) Выполнено тестов ${testsCount}`);
     console.log(`(i) успешных тестов: ${testsCount - errorsCount}`);
