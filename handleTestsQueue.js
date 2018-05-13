@@ -2,8 +2,8 @@ const spawnProcess = require("./spawnProcess");
 
 module.exports = function (testsQueue, processQueue, config, isVerbose) {
     return new Promise((resolve, reject) => {
+        let errorsCount = 0;
         handleTestsQueue(testsQueue, processQueue, config, isVerbose);
-        let errorsCount = 0
         function handleTestsQueue(testsQueue, processQueue, config, isVerbose) {
             if (testsQueue === false) resolve(true);
 
