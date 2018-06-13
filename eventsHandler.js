@@ -24,7 +24,7 @@ module.exports = function (done) {
     event.dispatcher.on(event.step.started, async function (step) {
         let client = await container.helpers('WebDriverIO');
         let url = await client.browser.getUrl();
-        console.log(`       ${step.actor} ${step.name} ${step.args} at page ${url}`);
+        console.log(`       ${step.actor} ${step.name} ${step.args.substring(0,20)} at page ${url}`);
         allure.createStep(`${step.actor} ${step.name} ${step.args} at page ${url}`, () => {
         })();
     });
@@ -52,14 +52,14 @@ module.exports = function (done) {
             });
 
         function handleError(error, failedStep) {
-            console.error('');
-            console.error('❌');
-            console.error('❌         test ' + test.title + 'fail');
-            console.error('❌         ' + error);
-            console.error('❌         at url: ' + url);
-            console.error(`❌         on step: ${failedStep.actor} ${failedStep.name} ${failedStep.args}`);
-            console.error('❌');
-            console.error('');
+            console.error(`
+            
+             ❌         test ${test.title} fail
+             ❌         ${error}
+             ❌         at url: ${url}
+             ❌         on step: ${failedStep.actor} ${failedStep.name} ${failedStep.args}
+            
+            `);
 
 
             if (driverScreenData.length > 0) {
