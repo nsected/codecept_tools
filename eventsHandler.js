@@ -24,7 +24,8 @@ module.exports = function (done) {
     event.dispatcher.on(event.step.started, async function (step) {
         let client = await container.helpers('WebDriverIO');
         let url = await client.browser.getUrl();
-        console.log(`       ${step.actor} ${step.name} ${step.args.substring(0,20)} at page ${url}`);
+        let symbolsLimit = 100;
+        console.log(`       ${step.actor} ${step.name} ${step.args.toString().substring(0,symbolsLimit)} at page ${url}`);
         allure.createStep(`${step.actor} ${step.name} ${step.args} at page ${url}`, () => {
         })();
     });
