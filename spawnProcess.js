@@ -22,7 +22,7 @@ module.exports = function spawnProcess(test, testsQueue, processQueue, config, i
             `npx`,
             commandLineArguments,
             {
-                cwd: path.join(process.cwd(), test.configDir),
+                cwd: process.cwd(),
                 env: process.env
             }
         );
