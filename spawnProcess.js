@@ -17,11 +17,12 @@ module.exports = function spawnProcess(test, testsQueue, processQueue, config, i
     );
 
     return new Promise((resolve, reject) => {
+        console.log(commandLineArguments);
         processQueue[test.name] = spawn(
             `npx`,
             commandLineArguments,
             {
-                cwd: process.cwd(),
+                cwd: path.join(process.cwd(), test.configDir),
                 env: process.env
             }
         );
