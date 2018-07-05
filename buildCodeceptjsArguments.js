@@ -13,6 +13,7 @@ module.exports = function buildCodeceptjsArguments(overrideArguments, configPath
         '--reporter': 'mocha-multi', //todo: разхардкодить опции моки
         '--config': configPath,
         '--override': {isAsync: !!isAsync},
+        '--verbose': '--verbose'
     };
 
     if (overrideArguments) {
