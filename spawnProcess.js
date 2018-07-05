@@ -1,3 +1,4 @@
+const path = require("path");
 const buildCodeceptjsArguments = require("./buildCodeceptjsArguments");
 const {spawn} = require('child_process');
 
@@ -20,7 +21,7 @@ module.exports = function spawnProcess(test, testsQueue, processQueue, config, i
             `npx`,
             commandLineArguments,
             {
-                cwd: process.cwd(),
+                cwd: path.join(process.cwd(), test.configDir),
                 env: process.env
             }
         );

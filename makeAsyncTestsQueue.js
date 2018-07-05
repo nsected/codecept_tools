@@ -23,6 +23,7 @@ module.exports = function makeAsyncTestsQueue(configPath, overrideArguments, con
             name: path.basename(testsList[i]),
             status: 'waiting',
             overrideArguments: overrideArguments,
+            configDir: path.dirname(configPath),
             configPath: configPath,
             specificTestFile: testsList[i],
             testType: testType
