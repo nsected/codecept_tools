@@ -10,7 +10,7 @@ module.exports = function makeAsyncTestsQueue(configPath, overrideArguments, con
             return false
         }
         else {
-            testsList = [path.join(__dirname, './loginWithSpecifiedScenario.js')];
+            testsList = [path.join(__dirname, './storeLoginCookies.js')];
         }
     }
     else {
