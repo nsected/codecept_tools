@@ -80,6 +80,7 @@ async function run(cmd) {
             testsList: testsList,
             testType: 'regular'
         });
+        testsCount = testsQueue.length;
         console.log(`(i) Loaded ${testsQueue.length} tests`)
     }
     else {
