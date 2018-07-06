@@ -10,12 +10,12 @@ Feature('login', {timeout: config.timeout, retries: config.retries});
 
 Scenario('login', async (I, vars) => {
         try {
-            if (!!config.loginScript) {
+            if (!!config.login) {
                 rimraf.sync(tmp, {}, function () {});
                 fs.mkdirSync(tmp);
 
-                console.log('Login with scenario: ' + config.loginScript);
-                let loginPartition = path.join(process.cwd(), path.dirname( config.mocha.config), config.loginScript);
+                console.log('Login with scenario: ' + config.login);
+                let loginPartition = path.join(process.cwd(), path.dirname( config.mocha.config), config.login);
                 let login = await require(loginPartition);
                 await login(I, vars);
                 let cookies = await I.grabCookie();

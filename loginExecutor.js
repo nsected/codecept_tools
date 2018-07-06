@@ -7,14 +7,14 @@ const cookiePath = path.join(tmp, '/cookies.json');
 module.exports = function (I, vars) {
     return actor({
         login: async function (I, vars) {
-            if (!config.isAsync && !!config.loginScript) {
-                console.log('Login with login script ' + config.loginScript);
-                let loginPartition = path.join(process.cwd(), path.dirname( config.mocha.config), config.loginScript);
+            if (!config.isAsync && !!config.login) {
+                console.log('Login with login script ' + config.login);
+                let loginPartition = path.join(process.cwd(), path.dirname( config.mocha.config), config.login);
                 let login = await require(loginPartition);
                 await login(I, vars);
             }
 
-            if (config.isAsync && !!config.loginScript) {
+            if (config.isAsync && !!config.login) {
                 let cookies = await require(cookiePath);
                 console.log('Login with stored cookies ' + cookies.length);
                 cookies = JSON.stringify(cookies);

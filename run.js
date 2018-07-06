@@ -56,7 +56,7 @@ async function run(cmd) {
     let config = require(path.join(process.cwd(), configPath));
     config.codeceptParams = codeceptParams;
     config.isAsync = isAsync;
-    const loginScript = config.loginScript;
+    const loginScript = config.login;
     if (!Number.isInteger(config.threadsLimit)) config.threadsLimit = 2;
     let processQueue = {};
     let bootstrapQueue;
