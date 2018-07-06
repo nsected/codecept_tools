@@ -70,7 +70,10 @@ async function run(cmd) {
         bootstrapQueue = makeAsyncTestsQueue({
             configPath: configPath,
             overrideArguments: overrideArguments,
-            testsList: [path.join(__dirname, './storeLoginCookies.js')],
+            testsList: [
+                path.join(__dirname, './storeLoginCookies.js'),
+                path.join(process.cwd(), path.dirname(configPath), config.suiteBootstrap)
+            ],
             testType: 'bootstrap'
         });
 
