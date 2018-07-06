@@ -94,8 +94,8 @@ async function run(cmd) {
     let errorsCount = 0;
     errorsCount = await handleTestsQueue(testsQueue, processQueue, config, isVerbose);
     console.log(`(i) All tests done`);
-    console.log(`(i) Tests count: ${testsQueue.length}`);
-    console.log(`(i) Success tests: ${testsQueue.length - errorsCount}`);
+    console.log(`(i) Tests count: ${testsCount}`);
+    console.log(`(i) Success tests: ${testsCount - errorsCount}`);
     console.log(`(i) Error tests: ${errorsCount}`);
     process.exit(errorsCount);
 }
