@@ -1,23 +1,14 @@
 const path = require("path");
-const glob = require("glob");
 
-module.exports = function makeAsyncTestsQueue(configPath, overrideArguments, config, testType) {
+module.exports = function makeAsyncTestsQueue(arguments) {
+    let configPath = arguments.configPath;
+    let overrideArguments = arguments.overrideArguments;
+    let testsList = arguments.testsList;
+    let testType = arguments.testType;
+
+    if (!testsList) throw new Error('Must provide test scripts');
+
     let asyncTestsQueue = [];
-    let testsList;
-    if (testType === 'login') {
-        if (!config.loginScript) {
-            console.log('you not provide login script');
-            return false
-        }
-        else {
-            testsList = [path.join(__dirname, './storeLoginCookies.js')];
-        }
-    }
-    else {
-        if (!config.tests) throw new Error('must provide test scripts');
-        testsList = glob.sync(path.join(process.cwd(), path.dirname(configPath), config.tests), {});
-    }
-
     for (let i = 0; i < testsList.length; i++) {
         asyncTestsQueue[i] = {
             name: path.basename(testsList[i]),

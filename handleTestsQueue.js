@@ -67,10 +67,7 @@ module.exports = function (testsQueue, processQueue, config, isVerbose) {
                     })
                     .catch(result => {
                         errorsCount+= 1;
-                        if (isVerbose) console.log('С ОШИБКОЙ, СПАВНИМ ЕЩЕ ОД-');
-                        let myTestType;
-                        if (!!result.test) myTestType = result.test.testType;
-                        if (myTestType === 'login') {
+                        if (result.test.testType === 'bootstrap') {
                             console.error('!!!!!!!! login scenario failed. Exiting');
                             process.exit(1)
                         }

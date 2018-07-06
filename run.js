@@ -4,7 +4,6 @@
 //todo: починить процедуру загрузки куков при использовании опции оверрайда
 //todo: сделать таймаут для тестов
 
-
 //todo: !!!рефактор
 //todo: навернуть классов
 //todo: переименовать verbose в debug
@@ -12,19 +11,12 @@
 //todo: объеденить очередь тестов и очередь выполняемых потоков в одну
 //todo: вынести механизм обмена куками в хук кодцепта
 
-
 //todo: ???
 //todo: поддержка мультибраузерности из асинхронной опции кодцепта
 //todo: помечать шаги желтым, если при их выполнении в консоли ошибки
 //todo: поддержка асинхронных тестов во вкладках одного инстанса браузера?
 //todo: статистика по тестам?
 //todo: запись видео?
-
-
-
-
-
-
 
 const program = require('commander');
 const path = require("path");
@@ -66,37 +58,43 @@ async function run(cmd) {
     const loginScript = config.loginScript;
     if (!Number.isInteger(config.threadsLimit)) config.threadsLimit = 2;
     let processQueue = {};
-    let loginTestQueue;
+    let bootstrapQueue;
     let testsQueue;
     let testsCount;
     process.env.multi = 'spec=- mocha-allure-reporter=-'; //todo: разхардкодить опции моки
-
-
-
-
+    let testsList = glob.sync(path.join(process.cwd(), path.dirname(configPath), config.tests), {});
 
 
     if (isAsync) {
-        loginTestQueue = makeAsyncTestsQueue(configPath, overrideArguments, config, 'login');
-        testsQueue = makeAsyncTestsQueue(configPath, overrideArguments, config, 'regularTest');
-        testsCount = testsQueue.length;
-        console.log(`(i) Загружено тестов: ${testsCount}`)
+        bootstrapQueue = makeAsyncTestsQueue({
+            configPath: configPath,
+            overrideArguments: overrideArguments,
+            testsList: [path.join(__dirname, './storeLoginCookies.js')],
+            testType: 'bootstrap'
+        });
 
+        testsQueue = makeAsyncTestsQueue({
+            configPath: configPath,
+            overrideArguments: overrideArguments,
+            testsList: testsList,
+            testType: 'regular'
+        });
+        console.log(`(i) Loaded ${testsQueue.length} tests`)
     }
     else {
-        loginTestQueue = false;
+        bootstrapQueue = false;
         testsQueue = makeSyncTestsQueue(configPath, overrideArguments, config);
         testsCount = testsQueue.length;
-        console.log(`(i) Загружено тестов: ${testsCount}`)
+        console.log(`(i) Loaded ${testsQueue.length} tests`)
     }
 
-    await handleTestsQueue(loginTestQueue, processQueue, config, isVerbose);
-    console.log(`(i) ЛОГИН ЗАВЕРШИЛСЯ УСПЕШНО, ЗАПУСКАЕМ ТЕСТЫ`);
+    await handleTestsQueue(bootstrapQueue, processQueue, config, isVerbose);
+    console.log(`(i) Login done. Running tests.`);
     let errorsCount = 0;
     errorsCount = await handleTestsQueue(testsQueue, processQueue, config, isVerbose);
-    console.log(`(i) ВСЕ ТЕСТЫ ВЫПОЛНЕНЫ`);
-    console.log(`(i) Выполнено тестов ${testsCount}`);
-    console.log(`(i) успешных тестов: ${testsCount - errorsCount}`);
-    console.log(`(i) ТЕСТОВ С ОШИБКОЙ ${errorsCount}`);
+    console.log(`(i) All tests done`);
+    console.log(`(i) Tests count: ${testsQueue.length}`);
+    console.log(`(i) Success tests: ${testsQueue.length - errorsCount}`);
+    console.log(`(i) Error tests: ${errorsCount}`);
     process.exit(errorsCount);
 }
