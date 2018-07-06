@@ -47,6 +47,7 @@ program
 program.parse(process.argv);
 
 async function run(cmd) {
+    const glob = require("glob");
     let configPath = cmd.config;
     let overrideArguments = cmd.override;
     let isAsync = cmd.async;
