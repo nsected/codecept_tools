@@ -25,9 +25,8 @@ module.exports = function spawnProcess(test, testsQueue, processQueue, config, i
                 env: process.env
             }
         );
-        console.log('(i) ТЕСТ', test.name, 'ЗАПУСТИЛСЯ');
+        console.log(`(i) Test ${test.name} run`);
         if (isVerbose) {
-            console.log('-ИН ТЕСТ. ЭТОТ ТЕСТ ЗАСПАВНЕН');
             console.log("multi='spec=- mocha-allure-reporter=-'" + processQueue[test.name].spawnargs.join(' '));
         }
 
@@ -44,11 +43,11 @@ module.exports = function spawnProcess(test, testsQueue, processQueue, config, i
             if (isVerbose) console.log(`${test.name} exited with code ${code}`);
             delete processQueue[test.name];
             if (code === 0) {
-                console.log('(i) ТЕСТ', test.name, 'ЗАВЕРШИЛСЯ УСПЕШНО');
+                console.log(`(i) Test ${test.name} success`);
                 resolve(true)
             }
             else {
-                console.log('(i) ТЕСТ', test.name, 'ЗАВЕРШИЛСЯ С ОШИБКОЙ');
+                console.log(`(i) Test ${test.name} fail`);
                 reject({
                     error: new Error(`${test.name} exited with code ${code}`),
                     test: test
