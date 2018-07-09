@@ -61,7 +61,7 @@ async function run(cmd) {
     let processQueue = {};
     let bootstrapQueue;
     let bootstrap = [];
-    if (!!config.bootstrap) config.bootstrapAll = config.bootstrap;
+    if (!!config.bootstrap) config.bootstrapSuite = config.bootstrap;
     if (!!config.login || !!config.bootstrap) bootstrap.push(path.join(__dirname, './suitBootstrap.js'));
     let testsQueue;
     let testsCount;

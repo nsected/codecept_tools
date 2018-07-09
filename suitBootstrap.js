@@ -15,8 +15,8 @@ Scenario('Preparation', async (I) => {
             rimraf.sync(tmp, {}, function () {});
             fs.mkdirSync(tmp);
 
-            if (!!config.bootstrapAll) {
-                const bootstrapPartition = path.join(process.cwd(), path.dirname( config.mocha.config), config.bootstrapAll);
+            if (!!config.bootstrapSuite) {
+                const bootstrapPartition = path.join(process.cwd(), path.dirname( config.mocha.config), config.bootstrapSuite);
                 const bootstrap = await require(bootstrapPartition);
                 await bootstrap(I, config);
             }
