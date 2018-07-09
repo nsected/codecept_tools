@@ -49,6 +49,7 @@ program.parse(process.argv);
 async function run(cmd) {
     let isVerbose = cmd.verbose;
     let configPath = cmd.config;
+    cmd.override = cmd.override | '{}';
     let overrideConfig = JSON.parse(cmd.override);
     let config = require(path.join(process.cwd(), configPath)).config;
     config = merge(config, overrideConfig);
