@@ -53,7 +53,7 @@ async function run(cmd) {
     let overrideConfig = JSON.parse(cmd.override);
     let config = require(path.join(process.cwd(), configPath)).config;
     config = merge(config, overrideConfig);
-    config.codeceptParams = cmd.params;
+    config.codeceptParams = cmd.params | [];
     config.isAsync = cmd.async;
     config.isVerbose = cmd.verbose;
     if (!Number.isInteger(config.threadsLimit)) config.threadsLimit = 1;
