@@ -16,6 +16,6 @@ module.exports = function buildCodeceptjsArguments(configPath, exclusiveTestFile
             '--override',
             JSON.stringify(config),
     ]);
-    
+    console.log(codeceptParams);
     return codeceptParams;
 };
