@@ -19,7 +19,7 @@ Scenario('Preparation', async (I) => {
             if (!!config.bootstrapSuite) {
                 const bootstrapPartition = path.join(process.cwd(), path.dirname( config.mocha.config), config.bootstrapSuite);
                 const bootstrap = await require(bootstrapPartition);
-                await bootstrap(I, config);
+                await bootstrap(()=>{return}, config);
             }
 
             if (!!config.login) {
