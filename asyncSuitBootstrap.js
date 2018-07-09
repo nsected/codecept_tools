@@ -11,6 +11,7 @@ Feature('Preparation', {timeout: config.timeout, retries: config.retries});
 Scenario('Preparation', async (I) => {
         try {
             rimraf.sync(tmp, {}, function () {});
+            fs.mkdirSync(tmp);
 
             if (!!config.suiteBootstrap) {
                 const bootstrapPartition = path.join(process.cwd(), path.dirname( config.mocha.config), config.suiteBootstrap);
