@@ -66,7 +66,7 @@ async function run(cmd) {
     process.env.multi = 'spec=- mocha-allure-reporter=-'; //todo: разхардкодить опции моки
     let testsList = glob.sync(path.join(process.cwd(), path.dirname(configPath), config.tests), {});
 
-    if (isAsync) {
+    if (config.isAsync) {
         bootstrapQueue = makeAsyncTestsQueue({
             configPath: configPath,
             testsList: bootstrap
