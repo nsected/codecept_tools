@@ -81,6 +81,7 @@ async function run(cmd) {
             testsList: testsList,
             stage: 'test'
         });
+        config.bootstrap = '';
         testsCount = testsQueue.length;
         console.log(`(i) Loaded ${testsQueue.length} tests`)
     }
