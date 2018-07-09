@@ -71,7 +71,7 @@ async function run(cmd) {
             configPath: configPath,
             overrideArguments: overrideArguments,
             testsList: [
-                path.join(process.cwd(), path.dirname(configPath), config.suiteBootstrap)
+                path.join(process.cwd(), path.dirname(configPath), config.suiteBootstrap),
                 path.join(__dirname, './storeLoginCookies.js'),
             ],
             testType: 'bootstrap'
