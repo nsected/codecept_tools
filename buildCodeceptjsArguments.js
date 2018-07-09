@@ -3,7 +3,7 @@ const merge = require('deepmerge');
 module.exports = function buildCodeceptjsArguments(configPath, exclusiveTestFile, config) {
     if (exclusiveTestFile) config.tests = exclusiveTestFile;
 
-    let codeceptParams = [
+    return [
         'codeceptjs',
         'run'
     ]
@@ -16,6 +16,4 @@ module.exports = function buildCodeceptjsArguments(configPath, exclusiveTestFile
             '--override',
             JSON.stringify(config),
     ]);
-    console.log(codeceptParams);
-    return codeceptParams;
 };
