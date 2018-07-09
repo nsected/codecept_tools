@@ -2,7 +2,13 @@
 
 module.exports = function buildCodeceptjsArguments(overrideArguments, configPath, specificTestFile, config) {
     if (!config.codeceptParams) config.codeceptParams = [];
-    let isAsync = config.isAsync;
+    let bootstrap = config.bootstrap;
+    let bootstrapSuite = config.bootstrap;
+    let isAsync = !!config.isAsync;
+
+    if (isAsync) {
+        bootstrap = null;
+    }
 
     let codeceptParams = [
         'codeceptjs',
@@ -12,7 +18,7 @@ module.exports = function buildCodeceptjsArguments(overrideArguments, configPath
     let baseArguments = {
         '--reporter': 'mocha-multi', //todo: разхардкодить опции моки
         '--config': configPath,
-        '--override': {isAsync: !!isAsync, bootstrap: null, bootstrapSuite: config.bootstrap},
+        '--override': {isAsync: isAsync, bootstrap: bootstrap, bootstrapSuite: bootstrapSuite},
         '--verbose': '--verbose'
     };
 
@@ -25,7 +31,6 @@ module.exports = function buildCodeceptjsArguments(overrideArguments, configPath
     }
 
     baseArguments['--override'] = JSON.stringify(baseArguments['--override']);
-    if (!!isAsync) baseArguments['--override'].bootstrap = null;
     let argumentsArray = [];
     for (let key in baseArguments) {
         argumentsArray.push(key);
