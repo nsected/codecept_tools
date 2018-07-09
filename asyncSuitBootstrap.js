@@ -2,6 +2,7 @@
 const fs = require('fs');
 const path = require("path");
 const rimraf = require('rimraf');
+let config = require('codeceptjs').config.get();
 const tmp = path.join(process.cwd(), '/tmp');
 const cookiePath = path.join(tmp, '/cookies.json');
 
@@ -10,7 +11,7 @@ Feature('Preparation', {timeout: config.timeout, retries: config.retries});
 Scenario('Preparation', async (I) => {
         try {
             require('codeceptjs').config.append({stage: 'bootstrap'});
-            const config = require('codeceptjs').config.get();
+            config = require('codeceptjs').config.get();
             rimraf.sync(tmp, {}, function () {});
             fs.mkdirSync(tmp);
 
