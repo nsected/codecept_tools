@@ -15,13 +15,13 @@ Scenario('Preparation', async (I) => {
             rimraf.sync(tmp, {}, function () {});
             fs.mkdirSync(tmp);
 
-            if (!!config.suiteBootstrap) {
-                const bootstrapPartition = path.join(process.cwd(), path.dirname( config.mocha.config), config.suiteBootstrap);
+            if (!!config.bootstrap) {
+                const bootstrapPartition = path.join(process.cwd(), path.dirname( config.mocha.config), config.bootstrap);
                 const bootstrap = await require(bootstrapPartition);
                 await bootstrap(I, config);
             }
 
-            if (!!config.login && !!config.isAsync) {
+            if (!!config.login) {
                 let loginPartition = path.join(process.cwd(), path.dirname( config.mocha.config), config.login);
                 let login = await require(loginPartition);
 

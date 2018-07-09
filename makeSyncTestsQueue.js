@@ -7,6 +7,6 @@ module.exports = function makeSyncTestsQueue(configPath, overrideArguments, conf
         configDir: path.dirname(configPath),
         overrideArguments: overrideArguments,
         configPath: configPath,
-        specificTestFile: false
+        specificTestFile: false,
     }]
 };

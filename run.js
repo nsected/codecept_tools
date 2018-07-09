@@ -61,7 +61,7 @@ async function run(cmd) {
     let processQueue = {};
     let bootstrapQueue;
     let bootstrap = [];
-    if (!!config.login || !!config.suiteBootstrap)  bootstrap.push(path.join(__dirname, './asyncSuitBootstrap.js'));
+    if (!!config.login || !!config.bootstrap)  bootstrap.push(path.join(__dirname, './suitBootstrap.js'));
     let testsQueue;
     let testsCount;
     process.env.multi = 'spec=- mocha-allure-reporter=-'; //todo: разхардкодить опции моки
@@ -85,13 +85,7 @@ async function run(cmd) {
         console.log(`(i) Loaded ${testsQueue.length} tests`)
     }
     else {
-        bootstrapQueue = makeAsyncTestsQueue({
-            configPath: configPath,
-            overrideArguments: overrideArguments,
-            testsList: bootstrap,
-            stage: 'runner'
-        });
-
+        bootstrapQueue = false;
         testsQueue = makeSyncTestsQueue(configPath, overrideArguments, config);
         testsCount = testsQueue.length;
         console.log(`(i) Loaded ${testsQueue.length} tests`)
