@@ -6,11 +6,20 @@ const config = require('codeceptjs').config.get();
 const tmp = path.join(process.cwd(), '/tmp');
 const cookiePath = path.join(tmp, '/cookies.json');
 
-Feature('login', {timeout: config.timeout, retries: config.retries});
+Feature('Preparation', {timeout: config.timeout, retries: config.retries});
 
-Scenario('login', async (I, vars) => {
+Scenario('Preparation', async (I, vars) => {
         try {
-            if (!!config.login) {
+            if (!!config.suiteBootstrap) {
+                const bootstrapPartition = path.join(process.cwd(), path.dirname( config.mocha.config), config.suiteBootstrap);
+                const bootstrap = await require(bootstrapPartition);
+                await bootstrap(I, vars);
+            }
+
+            if (!!config.login && !!config.isAsync) {
+                let loginPartition = path.join(process.cwd(), path.dirname( config.mocha.config), config.login);
+                let login = await require(loginPartition);
+
                 if (!fs.existsSync(dir)){
                     fs.mkdirSync(dir);
                 } else if (path.existsSync(cookiePath)) {
@@ -18,21 +27,15 @@ Scenario('login', async (I, vars) => {
                 }
 
                 console.log('Login with scenario: ' + config.login);
-                let loginPartition = path.join(process.cwd(), path.dirname( config.mocha.config), config.login);
-                let login = await require(loginPartition);
                 await login(I, vars);
                 let cookies = await I.grabCookie();
-                await fs.writeFileSync(cookiePath, JSON.stringify(cookies), function(err) {
-                    if(err) {
-                        console.error(err);
-                    }
-                });
+                await fs.writeFileSync(cookiePath, JSON.stringify(cookies), (err)=>{console.error(err)});
                 console.log('Login done. Cookies grabbed: ' + cookies.length)
             }
         }
         catch
-            (e) {
-            console.log(e)
+            (err) {
+            console.error(err)
         }
     }
 );

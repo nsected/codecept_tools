@@ -60,9 +60,8 @@ async function run(cmd) {
     if (!Number.isInteger(config.threadsLimit)) config.threadsLimit = 2;
     let processQueue = {};
     let bootstrapQueue;
-    let bootstrapList = [];
-    if (!!config.login)  bootstrapList.push(path.join(__dirname, './storeLoginCookies.js'));
-    if (!!config.suiteBootstrap) bootstrapList.push(path.join(process.cwd(), path.dirname(configPath), config.suiteBootstrap));
+    let bootstrap = [];
+    if (!!config.login || !!config.suiteBootstrap)  bootstrap.push(path.join(__dirname, './asyncSuitBootstrap.js'));
     let testsQueue;
     let testsCount;
     process.env.multi = 'spec=- mocha-allure-reporter=-'; //todo: разхардкодить опции моки
@@ -72,7 +71,7 @@ async function run(cmd) {
         bootstrapQueue = makeAsyncTestsQueue({
             configPath: configPath,
             overrideArguments: overrideArguments,
-            testsList: bootstrapList,
+            testsList: bootstrap,
             testType: 'bootstrap'
         });
 
@@ -86,14 +85,20 @@ async function run(cmd) {
         console.log(`(i) Loaded ${testsQueue.length} tests`)
     }
     else {
-        bootstrapQueue = false;
+        bootstrapQueue = makeAsyncTestsQueue({
+            configPath: configPath,
+            overrideArguments: overrideArguments,
+            testsList: bootstrap,
+            testType: 'bootstrap'
+        });
+
         testsQueue = makeSyncTestsQueue(configPath, overrideArguments, config);
         testsCount = testsQueue.length;
         console.log(`(i) Loaded ${testsQueue.length} tests`)
     }
 
     await handleTestsQueue(bootstrapQueue, processQueue, config, isVerbose);
-    console.log(`(i) Login done. Running tests.`);
+    console.log(`(i) Preparations done. Running tests.`);
     let errorsCount = 0;
     errorsCount = await handleTestsQueue(testsQueue, processQueue, config, isVerbose);
     console.log(`(i) All tests done`);
