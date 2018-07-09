@@ -10,7 +10,6 @@ Feature('Preparation', {timeout: config.timeout, retries: config.retries});
 
 Scenario('Preparation', async (I) => {
         try {
-            console.log(config.bootstrapSuite);
             require('codeceptjs').config.append({stage: 'runner'});
             config = require('codeceptjs').config.get();
             rimraf.sync(tmp, {}, function () {});
@@ -19,7 +18,7 @@ Scenario('Preparation', async (I) => {
             if (!!config.bootstrapSuite) {
                 const bootstrapPartition = path.join(process.cwd(), path.dirname( config.mocha.config), config.bootstrapSuite);
                 const bootstrap = await require(bootstrapPartition);
-                await bootstrap(()=>{return}, config);
+                await bootstrap(()=>{}, config);
             }
 
             if (!!config.login) {
@@ -29,7 +28,7 @@ Scenario('Preparation', async (I) => {
                 console.log('Login with scenario: ' + config.login);
                 await login(I, config);
                 let cookies = await I.grabCookie();
-                await fs.writeFileSync(cookiePath, JSON.stringify(cookies), (err)=>{console.error(err)});
+                fs.writeFileSync(cookiePath, JSON.stringify(cookies), (err)=>{console.error(err)});
                 console.log('Login done. Cookies grabbed: ' + cookies.length)
             }
         }
