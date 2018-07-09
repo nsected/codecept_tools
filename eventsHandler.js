@@ -14,7 +14,7 @@ try {
 
 // console.log(cookies);
 
-module.exports = function (done) {
+module.exports = function () {
     event.dispatcher.on(event.test.started, async function () {
         let minConfig = Object.assign({}, config);
         delete minConfig.mocha;
