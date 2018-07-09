@@ -61,21 +61,21 @@ async function run(cmd) {
     let processQueue = {};
     let bootstrapQueue;
     let bootstrap = [];
-    if (!!config.login || !!config.bootstrap)  bootstrap.push(path.join(__dirname, './suitBootstrap.js'));
+    if (!!config.bootstrap) config.bootstrapAll = config.bootstrap;
+    if (!!config.login || !!config.bootstrap) bootstrap.push(path.join(__dirname, './suitBootstrap.js'));
     let testsQueue;
     let testsCount;
     process.env.multi = 'spec=- mocha-allure-reporter=-'; //todo: разхардкодить опции моки
     let testsList = glob.sync(path.join(process.cwd(), path.dirname(configPath), config.tests), {});
 
     if (isAsync) {
+        config.bootstrap = '';
         bootstrapQueue = makeAsyncTestsQueue({
             configPath: configPath,
             overrideArguments: overrideArguments,
             testsList: bootstrap,
             stage: 'preparation'
         });
-        config.bootstrap = '';
-        overrideArguments.bootstrap='';
         testsQueue = makeAsyncTestsQueue({
             configPath: configPath,
             overrideArguments: overrideArguments,
