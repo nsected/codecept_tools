@@ -8,6 +8,6 @@ module.exports = function makeSyncTestsQueue(configPath, overrideArguments, conf
         overrideArguments: overrideArguments,
         configPath: configPath,
         specificTestFile: false,
-        stage: 'bootstrap'
+        stage: 'preparation'
     }]
 };

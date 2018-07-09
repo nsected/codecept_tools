@@ -72,7 +72,7 @@ async function run(cmd) {
             configPath: configPath,
             overrideArguments: overrideArguments,
             testsList: bootstrap,
-            stage: 'bootstrap'
+            stage: 'preparation'
         });
 
         testsQueue = makeAsyncTestsQueue({
