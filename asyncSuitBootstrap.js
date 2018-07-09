@@ -13,7 +13,7 @@ Scenario('Preparation', async (I, vars) => {
             if (!!config.suiteBootstrap) {
                 const bootstrapPartition = path.join(process.cwd(), path.dirname( config.mocha.config), config.suiteBootstrap);
                 const bootstrap = await require(bootstrapPartition);
-                await bootstrap(I, vars);
+                await bootstrap(I, config);
             }
 
             if (!!config.login && !!config.isAsync) {
@@ -27,7 +27,7 @@ Scenario('Preparation', async (I, vars) => {
                 }
 
                 console.log('Login with scenario: ' + config.login);
-                await login(I, vars);
+                await login(I, config);
                 let cookies = await I.grabCookie();
                 await fs.writeFileSync(cookiePath, JSON.stringify(cookies), (err)=>{console.error(err)});
                 console.log('Login done. Cookies grabbed: ' + cookies.length)
