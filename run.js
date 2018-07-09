@@ -75,6 +75,7 @@ async function run(cmd) {
             stage: 'preparation'
         });
         config.bootstrap = '';
+        overrideArguments.bootstrap='';
         testsQueue = makeAsyncTestsQueue({
             configPath: configPath,
             overrideArguments: overrideArguments,
