@@ -69,7 +69,6 @@ async function run(cmd) {
     let testsList = glob.sync(path.join(process.cwd(), path.dirname(configPath), config.tests), {});
 
     if (isAsync) {
-        config.bootstrap = '';
         bootstrapQueue = makeAsyncTestsQueue({
             configPath: configPath,
             overrideArguments: overrideArguments,

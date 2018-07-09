@@ -4,6 +4,7 @@ module.exports = function buildCodeceptjsArguments(overrideArguments, configPath
     if (!config.codeceptParams) config.codeceptParams = [];
 
     let isAsync = config.isAsync;
+    if (isAsync) config.bootstrap = "";
     let codeceptParams = [
         'codeceptjs',
         'run'
