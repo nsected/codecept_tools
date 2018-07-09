@@ -74,14 +74,13 @@ async function run(cmd) {
             testsList: bootstrap,
             stage: 'preparation'
         });
-
+        config.bootstrap = '';
         testsQueue = makeAsyncTestsQueue({
             configPath: configPath,
             overrideArguments: overrideArguments,
             testsList: testsList,
             stage: 'test'
         });
-        config.bootstrap = '';
         testsCount = testsQueue.length;
         console.log(`(i) Loaded ${testsQueue.length} tests`)
     }
