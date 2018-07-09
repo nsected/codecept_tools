@@ -53,7 +53,7 @@ async function run(cmd) {
     let isAsync = cmd.async;
     let codeceptParams = cmd.params;
     isVerbose = cmd.verbose;
-    let config = require(path.join(process.cwd(), configPath));
+    let config = require(path.join(process.cwd(), configPath)).config;
     config.codeceptParams = codeceptParams;
     config.isAsync = isAsync;
     const loginScript = config.login;
