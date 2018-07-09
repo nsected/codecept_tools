@@ -3,8 +3,7 @@ const fs = require('fs');
 const path = require("path");
 const rimraf = require('rimraf');
 const config = require('codeceptjs').config.get();
-const tmp = path.join(process.cwd(), '/tmp');
-const cookiePath = path.join(tmp, '/cookies.json');
+const cookiePath = path.join(process.cwd(), '/tmp', '/cookies.json');
 
 Feature('login', {timeout: config.timeout, retries: config.retries});
 
