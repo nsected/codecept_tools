@@ -3,15 +3,19 @@ const fs = require('fs');
 const path = require("path");
 const rimraf = require('rimraf');
 const config = require('codeceptjs').config.get();
-const cookiePath = path.join(process.cwd(), '/tmp', '/cookies.json');
+const tmp = path.join(process.cwd(), '/tmp');
+const cookiePath = path.join(tmp, '/cookies.json');
 
 Feature('login', {timeout: config.timeout, retries: config.retries});
 
 Scenario('login', async (I, vars) => {
         try {
             if (!!config.login) {
-                rimraf.sync(tmp, {}, function () {});
-                fs.mkdirSync(tmp);
+                if (!fs.existsSync(dir)){
+                    fs.mkdirSync(dir);
+                } else if (path.existsSync(cookiePath)) {
+                    rimraf.sync(cookiePath, {}, function () {});
+                }
 
                 console.log('Login with scenario: ' + config.login);
                 let loginPartition = path.join(process.cwd(), path.dirname( config.mocha.config), config.login);
