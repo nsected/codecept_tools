@@ -4,7 +4,7 @@ module.exports = function buildCodeceptjsArguments(overrideArguments, configPath
     if (!config.codeceptParams) config.codeceptParams = [];
 
     let isAsync = config.isAsync;
-    if (isAsync) config.bootstrap = "";
+
     let codeceptParams = [
         'codeceptjs',
         'run'
@@ -26,7 +26,7 @@ module.exports = function buildCodeceptjsArguments(overrideArguments, configPath
     }
 
     baseArguments['--override'] = JSON.stringify(baseArguments['--override']);
-
+    if (isAsync) baseArguments['--override'].bootstrap = "";
     let argumentsArray = [];
     for (let key in baseArguments) {
         argumentsArray.push(key);
