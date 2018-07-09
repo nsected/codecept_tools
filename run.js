@@ -60,20 +60,19 @@ async function run(cmd) {
     if (!Number.isInteger(config.threadsLimit)) config.threadsLimit = 2;
     let processQueue = {};
     let bootstrapQueue;
+    let bootstrapList = [];
+    if (!!config.login)  bootstrapList.push(path.join(__dirname, './storeLoginCookies.js'));
+    if (!!config.suiteBootstrap) bootstrapList.push(path.join(process.cwd(), path.dirname(configPath), config.suiteBootstrap));
     let testsQueue;
     let testsCount;
     process.env.multi = 'spec=- mocha-allure-reporter=-'; //todo: разхардкодить опции моки
     let testsList = glob.sync(path.join(process.cwd(), path.dirname(configPath), config.tests), {});
 
-
     if (isAsync) {
         bootstrapQueue = makeAsyncTestsQueue({
             configPath: configPath,
             overrideArguments: overrideArguments,
-            testsList: [
-                path.join(process.cwd(), path.dirname(configPath), config.suiteBootstrap),
-                path.join(__dirname, './storeLoginCookies.js'),
-            ],
+            testsList: bootstrapList,
             testType: 'bootstrap'
         });
 
