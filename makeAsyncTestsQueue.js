@@ -4,7 +4,7 @@ module.exports = function makeAsyncTestsQueue(arguments) {
     let configPath = arguments.configPath;
     let overrideArguments = arguments.overrideArguments;
     let testsList = arguments.testsList;
-    let testType = arguments.testType;
+    let stage = arguments.stage;
 
     if (!testsList) throw new Error('Must provide test scripts');
 
@@ -17,7 +17,7 @@ module.exports = function makeAsyncTestsQueue(arguments) {
             configDir: path.dirname(configPath),
             configPath: configPath,
             specificTestFile: testsList[i],
-            testType: testType
+            stage: stage
         };
     }
     return asyncTestsQueue;

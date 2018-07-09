@@ -10,6 +10,7 @@ Feature('Preparation', {timeout: config.timeout, retries: config.retries});
 
 Scenario('Preparation', async (I) => {
         try {
+            require('codeceptjs').config.append({stage: 'bootstrap'});
             rimraf.sync(tmp, {}, function () {});
             fs.mkdirSync(tmp);
 

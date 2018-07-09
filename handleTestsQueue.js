@@ -66,7 +66,7 @@ module.exports = function (testsQueue, processQueue, config, isVerbose) {
                     })
                     .catch(result => {
                         errorsCount+= 1;
-                        if (result.test.testType === 'bootstrap') {
+                        if (result.test.stage === 'bootstrap') {
                             console.error('!!!!!!!! login scenario failed. Exiting');
                             process.exit(1)
                         }

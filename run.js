@@ -72,14 +72,14 @@ async function run(cmd) {
             configPath: configPath,
             overrideArguments: overrideArguments,
             testsList: bootstrap,
-            testType: 'bootstrap'
+            stage: 'bootstrap'
         });
 
         testsQueue = makeAsyncTestsQueue({
             configPath: configPath,
             overrideArguments: overrideArguments,
             testsList: testsList,
-            testType: 'regular'
+            stage: 'test'
         });
         testsCount = testsQueue.length;
         console.log(`(i) Loaded ${testsQueue.length} tests`)
@@ -89,7 +89,7 @@ async function run(cmd) {
             configPath: configPath,
             overrideArguments: overrideArguments,
             testsList: bootstrap,
-            testType: 'bootstrap'
+            stage: 'bootstrap'
         });
 
         testsQueue = makeSyncTestsQueue(configPath, overrideArguments, config);
