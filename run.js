@@ -72,7 +72,7 @@ async function run(cmd) {
             configPath: configPath,
             overrideArguments: overrideArguments,
             testsList: bootstrap,
-            stage: 'bootstrap'
+            stage: 'runner'
         });
 
         testsQueue = makeAsyncTestsQueue({
@@ -89,7 +89,7 @@ async function run(cmd) {
             configPath: configPath,
             overrideArguments: overrideArguments,
             testsList: bootstrap,
-            stage: 'bootstrap'
+            stage: 'runner'
         });
 
         testsQueue = makeSyncTestsQueue(configPath, overrideArguments, config);
