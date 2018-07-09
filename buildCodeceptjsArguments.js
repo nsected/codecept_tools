@@ -2,7 +2,7 @@
 
 module.exports = function buildCodeceptjsArguments(overrideArguments, configPath, specificTestFile, config) {
     if (!config.codeceptParams) config.codeceptParams = [];
-
+    config.bootstrap = config.bootstrap | null;
     let isAsync = config.isAsync;
 
     let codeceptParams = [
@@ -13,7 +13,7 @@ module.exports = function buildCodeceptjsArguments(overrideArguments, configPath
     let baseArguments = {
         '--reporter': 'mocha-multi', //todo: разхардкодить опции моки
         '--config': configPath,
-        '--override': {isAsync: !!isAsync, bootstrap: null},
+        '--override': {isAsync: !!isAsync, bootstrap: null, bootstrapSuite: config.bootstrap},
         '--verbose': '--verbose'
     };
 
