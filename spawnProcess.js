@@ -10,9 +10,8 @@ module.exports = function spawnProcess(test, testsQueue, processQueue, config, i
         })
     }
     let commandLineArguments = buildCodeceptjsArguments(
-        test.overrideArguments,
         test.configPath,
-        test.specificTestFile,
+        test.exclusiveTestFile,
         config
     );
 

@@ -23,8 +23,8 @@ const path = require("path");
 const makeAsyncTestsQueue = require("./makeAsyncTestsQueue");
 const makeSyncTestsQueue = require("./makeSyncTestsQueue");
 const handleTestsQueue = require("./handleTestsQueue");
-
-let isVerbose;
+const merge = require('deepmerge');
+const glob = require("glob");
 
 if (process.argv.length <= 2) {
     console.log(`run test with command run and option --config `);
@@ -47,22 +47,19 @@ program
 program.parse(process.argv);
 
 async function run(cmd) {
-    const glob = require("glob");
+    let isVerbose = cmd.verbose;
     let configPath = cmd.config;
-    let overrideArguments = cmd.override;
-    let isAsync = cmd.async;
-    let codeceptParams = cmd.params;
-    isVerbose = cmd.verbose;
+    let overrideConfig = JSON.parse(cmd.override);
     let config = require(path.join(process.cwd(), configPath)).config;
-    config.codeceptParams = codeceptParams;
-    config.isAsync = isAsync;
-    const loginScript = config.login;
-    if (!Number.isInteger(config.threadsLimit)) config.threadsLimit = 2;
+    config = merge(config, overrideConfig);
+    config.codeceptParams = cmd.params;
+    config.isAsync = cmd.async;
+    config.isVerbose = cmd.verbose;
+    if (!Number.isInteger(config.threadsLimit)) config.threadsLimit = 1;
     let processQueue = {};
     let bootstrapQueue;
     let bootstrap = [];
-    if (!!config.bootstrap) config.bootstrapSuite = config.bootstrap;
-    if (!!config.login || !!config.bootstrap) bootstrap.push(path.join(__dirname, './suitBootstrap.js'));
+    if (!!config.login) bootstrap.push(path.join(__dirname, './storeLoginCookies.js'));
     let testsQueue;
     let testsCount;
     process.env.multi = 'spec=- mocha-allure-reporter=-'; //todo: разхардкодить опции моки
@@ -71,22 +68,18 @@ async function run(cmd) {
     if (isAsync) {
         bootstrapQueue = makeAsyncTestsQueue({
             configPath: configPath,
-            overrideArguments: overrideArguments,
-            testsList: bootstrap,
-            stage: 'preparation'
+            testsList: bootstrap
         });
         testsQueue = makeAsyncTestsQueue({
             configPath: configPath,
-            overrideArguments: overrideArguments,
-            testsList: testsList,
-            stage: 'test'
+            testsList: testsList
         });
         testsCount = testsQueue.length;
         console.log(`(i) Loaded ${testsQueue.length} tests`)
     }
     else {
         bootstrapQueue = false;
-        testsQueue = makeSyncTestsQueue(configPath, overrideArguments, config);
+        testsQueue = makeSyncTestsQueue(configPath, config);
         testsCount = testsQueue.length;
         console.log(`(i) Loaded ${testsQueue.length} tests`)
     }
