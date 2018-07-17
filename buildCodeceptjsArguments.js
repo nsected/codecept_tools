@@ -13,7 +13,7 @@ module.exports = function buildCodeceptjsArguments(configPath, exclusiveTestFile
             '--reporter',
             'mocha-multi',
             '--config',
-            configPath,
+            '',
             '--override',
             JSON.stringify(config),
     ]);
