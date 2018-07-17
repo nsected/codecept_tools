@@ -51,7 +51,7 @@ async function run(cmd) {
     let configPath = cmd.config;
     cmd.override = cmd.override | '{}';
     let overrideConfig = JSON.parse(cmd.override);
-    let config = require(path.join(process.cwd(), configPath)).default;
+    let config = require(path.join(process.cwd(), configPath));
     config = merge(config, overrideConfig);
     if (!cmd.params) cmd.params = [];
     config.codeceptParams = cmd.params;
