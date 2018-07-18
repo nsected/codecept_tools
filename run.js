@@ -57,6 +57,7 @@ async function run(cmd) {
     config.codeceptParams = cmd.params;
     config.isAsync = cmd.async;
     config.isVerbose = cmd.verbose;
+    confin.runner = 'custom';
     if (!Number.isInteger(config.threadsLimit)) config.threadsLimit = 1;
     let processQueue = {};
     let bootstrapQueue;
